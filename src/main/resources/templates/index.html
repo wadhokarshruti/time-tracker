@@ -11,48 +11,52 @@
     <!-- Tab content -->
     <div id="TimeTracker" class="tabcontent">
         <div class="container">
-        <form action="#">
-            <lable>Time Tracker</lable>
-            <select id="lid_options">
-                <option>--Select LID--</option>
-            </select>
-            <input type="submit" value="Login" onClick="callRESTLogin()">
-            <input type="submit" value="LogOff" onClick="callRESTLogoff()">
-        </form>
-        <div id="response"></div>
+            <form action="#">
+                <lable>Time Tracker</lable>
+                <select id="lid_options">
+                    <option>--Select LID--</option>
+                </select>
+                <input type="submit" value="Login" onClick="callRESTLogin()">
+                <input type="submit" value="LogOff" onClick="callRESTLogoff()">
+            </form>
+            <div id="response"></div>
         </div>
     </div>
 
     <div id="TokenDetails" class="tabcontent">
         <div class="container">
-        <form action="#">
-            <lable>Token Details</lable>
-            <select id="lid_options1">
-                <option>--Select LID--</option>
-            </select>
-            <H3>----Add below fields here-------</H3>
-            RSA Token Number-<br>
-            Expiry Date-<br>
-            Name-<br>
-            Westpac Email ID-<br>
-        </form>
-        <div id="response1"></div>
+            <form action="#">
+                <lable>Token Details</lable>
+                <select id="lid_options1">
+                    <option>--Select LID--</option>
+                </select>
+                <H3>----Add below fields here-------</H3>
+                RSA Token Number-<br>
+                Expiry Date-<br>
+                Name-<br>
+                Westpac Email ID-<br>
+            </form>
+            <div id="response1"></div>
         </div>
     </div>
 
     <div id="ConnDetails" class="tabcontent">
         <div class="container">
-        <form action="#">
-            <lable>Connection Details</lable>
-            <select id="lid_options2">
-                <option>--Select LID--</option>
-            </select>
-            <H3>----Add below fields here-------</H3>
-            Westpac EMail Id:<br>
-            Internet Connection Type: radio button mobile/broadband<br>
-            Vendor Airtel, ACE etc<br>
-        </form>
-        <div id="response2"></div>
+            <form action="#">
+                <h2 align="center"> Connection Details</h2>
+                <label id="id1">Lid</label><input type="text" id="id2" name="lid" placeholder="Enter Lid">
+                <br>
+                <label id="id1">WestpaC email id</label> <input id="id3" type="email" name="email" placeholder="Enter Email"><br>
+
+                <label id="id1">Internet Connection Type</label> <br>
+                <input type="radio" name="contype" value="mobile">Mobile
+                <input type="radio" name="contype" value="broadband">Broadbrand
+
+                <input type="submit" value="Submit" onClick="connDetails()">
+
+            </form>
+            <div id="response2"></div>
+
         </div>
     </div>
 </div>
@@ -60,6 +64,34 @@
 #response {
     font-size: 1rem;
     color: indianred;
+}
+h2{
+color:green
+}
+#id3{
+width: 100%;
+  padding: 15px 5px 15px 5px ;
+  margin: 20px 0;
+  display: inline;
+  border: 1px  #ccc;
+  border-radius: 4px;
+}
+#id2{
+width: 100%;
+  padding: 15px 5px 15px 5px ;
+  margin: 20px 0;
+  display: inline;
+  border: 1px  #ccc;
+  border-radius: 6px;
+}
+#id1{
+
+  width: 100%;
+  margin: 0px ;
+  display: block;
+  font-size: 1.4rem;
+  color : gray;
+  text-align: left;
 }
 lable{
   width: 100%;
@@ -211,6 +243,25 @@ this.callGetLids();
               }
               document.getElementById(cityName).style.display = "block";
               evt.currentTarget.className += " active";
+        }
+
+        function connDetails() {
+		var today = Date.now();
+		    var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("response").innerHTML = this.responseText;
+                }
+            };
+            var lid = document.getElementById("lid").value;
+            var email=document.getElementById("email").value;
+            var contype=document.getElementById("contype").value;
+
+
+            xhttp.open("GET", "https://localhost:9001/details?lid="+lid+"&email"+email+"&contype"+contype, true);
+            xhttp.send();
+            windows.open("success.html");
+
         }
 
     </script>
